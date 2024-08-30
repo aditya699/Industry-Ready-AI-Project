@@ -1,0 +1,40 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Indian Language Translator</h1>
+    <div id="chat-container">
+        <div id="chat-messages"></div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById('user-input');
+            const chatMessages = document.getElementById('chat-messages');
+            const message = userInput.value;
+
+            // Display user message
+            chatMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+            userInput.value = '';
+
+            // Send message to server
+            axios.post('/chat', { message: message })
+                .then(function (response) {
+                    // Display AI response
+                    chatMessages.innerHTML += `<p><strong>AI:</strong> ${response.data.response}</p>`;
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>

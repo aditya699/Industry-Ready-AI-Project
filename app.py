@@ -2,39 +2,52 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify, session
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.document_loaders import PyPDFLoader
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_community.vectorstores import FAISS
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 
 # Load environment variables from .env file
 load_dotenv()
 
-# Access environment variables
+# Set up Google API key for accessing AI models
 os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Set a secret key for session management
 
-# Initialize LLM
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
-    temperature=0,
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
+# Define the path to the PDF file
+file_path = "Data/Raw/Prompt-Eng.pdf"
+
+# Initialize the PyPDFLoader to load the PDF file
+loader = PyPDFLoader(file_path)
+
+# Load the PDF content and split it into pages
+pages = loader.load_and_split()
+
+# Initialize the RecursiveCharacterTextSplitter for chunking
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200,
+    length_function=len
 )
 
-# Load and index the PDF
-loader = PyPDFLoader("Data/Raw/Prompt-Eng.pdf")
-pages = loader.load_and_split()
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-vector_store = FAISS.from_documents(pages, embeddings)
+# Split the documents into chunks
+splits = text_splitter.split_documents(pages)
 
-# Create a retriever
-retriever = vector_store.as_retriever(search_kwargs={"k": 2})
+# Create embeddings using Google's AI model
+embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+# Create a FAISS index from the document chunks
+faiss_index = FAISS.from_documents(splits, embeddings)
+
+# Set up the retriever with the FAISS index
+retriever = faiss_index.as_retriever(search_kwargs={"k": 2})
+
+# Set up the language model for generating responses
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3)
 
 @app.route('/')
 def index():

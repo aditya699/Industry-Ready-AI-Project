@@ -1,3 +1,5 @@
 langchain-google-genai
 flask
 python-dotenv
+pypdf
+langchain_community

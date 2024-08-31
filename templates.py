@@ -49,6 +49,7 @@ def create_flask_project():
     create_directory(os.path.join(project_dir, "templates"))
     create_directory(os.path.join(project_dir, "src"))
     create_directory(os.path.join(project_dir,"tests"))
+    create_directory(os.path.join(project_dir,"data"))
 
     # Create necessary files
     create_file(os.path.join(project_dir,"requirements.txt"))

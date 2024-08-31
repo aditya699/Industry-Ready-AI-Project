@@ -4,3 +4,4 @@ python-dotenv
 pypdf
 langchain_community
 faiss-cpu
+langchain

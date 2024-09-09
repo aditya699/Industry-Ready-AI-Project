@@ -1,70 +1,79 @@
-# Industry-Ready-AI-Project
+# RAG-based Chatbot
 
-This project implements a RAG (Retrieval-Augmented Generation) based chatbot using prompt engineering techniques. The chatbot is built with Flask and leverages Google's Gemini AI model.
+This project implements a Retrieval-Augmented Generation (RAG) chatbot using Gemini embeddings and Flask.
 
-## Tech Stack
+## Demo
 
-- Python
-- Flask
-- langchain-google-genai
-- python-dotenv
-- pypdf
-- langchain_community
-- faiss-cpu
-- langchain
+Here are some screenshots of the chatbot in action:
 
-## Frontend
+![RAG Chatbot Demo 1](https://saibaba9758140479.blob.core.windows.net/testimages/ragcb1.PNG)
 
-The user interface is built using HTML, CSS, and JavaScript.
+![RAG Chatbot Demo 2](https://saibaba9758140479.blob.core.windows.net/testimages/ragcb2.PNG)
+
+## Project Structure
+
+- `src/`: Source code for the RAG chatbot
+- `templates/`: HTML templates for the web interface
+- `.gitignore`: Specifies intentionally untracked files to ignore
+- `LICENSE`: Project license file
+- `README.md`: This file, providing project overview and instructions
+- `app.py`: Main Flask application file
+- `requirements.txt`: List of Python dependencies
+- `setup.sh`: Setup script for the project
+- `templates.py`: Handles Gemini embeddings
 
 ## Features
 
-- RAG-based chatbot
-- Integration with Google's Gemini AI model
-- Flask backend for serving the chatbot
-- Prompt engineering techniques for improved responses
+- Web-based chat interface
+- RAG-powered responses using Gemini embeddings
+- Flask backend for handling requests and integrating components
 
-## Getting Started
+## Prerequisites
 
-1. Clone the repository
-2. Install the required dependencies:
+- Python 3.8+
+- Flask
+- Gemini API access (API key required)
+
+## Installation
+
+1. Clone the repository:
    ```
-   pip install -r requirements.txt
+   git clone https://github.com/aditya699/rag-chatbot.git
+   cd rag-chatbot
    ```
-3. Set up your environment variables in a `.env` file
-4. Run the Flask application:
+
+2. Run the setup script:
+   ```
+   bash setup.sh
+   ```
+
+   This script will likely set up your environment and install dependencies.
+
+3. Set up your Gemini API key:
+   - Create a `.env` file in the project root (it should be git-ignored)
+   - Add your API key: `GEMINI_API_KEY=your_api_key_here`
+
+## Usage
+
+1. Start the Flask server:
    ```
    python app.py
    ```
 
-## Project Structure
+2. Open a web browser and navigate to the provided local address (typically `http://localhost:5000`)
 
-- `src/`: Source code directory
-- `templates/`: HTML templates for the frontend
-- `.gitignore`: Git ignore file
-- `LICENSE`: MIT license file
-- `README.md`: This file
-- `app.py`: Main Flask application file
-- `requirements.txt`: List of Python dependencies
-- `setup.sh`: Setup script for the project
-- `templates.py`: Template handling for the chatbot
+3. Start chatting with the RAG-powered bot!
 
-## System Explanation
+## Customization
 
-For a detailed explanation of the entire system, check out our YouTube playlist:
-[Industry-Ready-AI-Project Explanation Playlist](https://www.youtube.com/playlist?list=PLSdiMs6f-QAcGVpnZ1ougPScXkAuvqIU6)
-
-This playlist covers all aspects of the project, providing in-depth insights into its architecture, implementation, and usage.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+- Modify files in the `templates/` directory to change the chat interface
+- Adjust RAG parameters and Gemini embeddings in `templates.py`
+- Update the main application logic in `app.py`
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Acknowledgements
+## License
 
-- Google Gemini AI
-- LangChain community
+This project is licensed under the license specified in the LICENSE file.
